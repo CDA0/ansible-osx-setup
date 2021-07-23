@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+
+  vars_files:
+    - default.config.yml
+
+  roles:
+    - { role: geerlingguy.homebrew, tags: ['homebrew'] }
+    - { role: macos, tags: ['macos'] }
+    - { role: neovim, tags: ['neovim'] }
+    - { role: fisher, tags: ['fish'] }
+    - { role: asdf, tags: ['asdf'] }
+    - { role: vscode, tags: ['code'] }

@@ -1,0 +1,58 @@
+---
+- name: Clone asdf-vm
+  git:
+    repo: https://github.com/asdf-vm/asdf.git
+    dest: "{{ lookup('env', 'HOME') }}/.asdf"
+    version: v0.8.0
+
+- name: Ensure completions directory exists
+  ansible.builtin.file:
+    path: "{{ lookup('env', 'HOME') }}/.config/fish/completions"
+    state: directory
+
+- name: Copy completions into place
+  ansible.builtin.copy:
+    src: "{{ lookup('env', 'HOME') }}/.asdf/completions/asdf.fish"
+    dest: "{{ lookup('env', 'HOME') }}/.config/fish/completions"
+
+- name: "Install asdf plugins"
+  ansible.builtin.shell: |
+    source /Users/{{ lookup('env', 'USER') }}/.asdf/asdf.sh
+    asdf plugin-add {{ item }} || exit 0
+  with_items:
+    - nodejs
+    - python
+    - terraform
+
+- name: Install default python
+  ansible.builtin.shell: |
+    source $HOME/.asdf/asdf.fish
+    asdf install python 3.9.1
+    asdf global python 3.9.1
+
+- name: Install global python user modules
+  ansible.builtin.shell: |
+    source $HOME/.asdf/asdf.fish
+    pip install --user {{ item }}
+  with_items:
+    - neovim
+    - pynvim
+
+- name: Install default node
+  ansible.builtin.shell: |
+    source $HOME/.asdf/asdf.fish
+    asdf install nodejs 16.1.0
+    asdf global nodejs 16.1.0
+
+- name: Install global node modules
+  ansible.builtin.shell: |
+    source $HOME/.asdf/asdf.fish
+    npm install {{ item }}
+  with_items:
+    - neovim
+
+- name: Install default terraform
+  ansible.builtin.shell: |
+    source $HOME/.asdf/asdf.fish
+    asdf install terraform 0.15.3
+    asdf global terraform 0.15.3

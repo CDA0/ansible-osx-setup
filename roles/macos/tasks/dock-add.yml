@@ -1,0 +1,28 @@
+---
+- name: See if Dock item {{ item }} exists.
+  ansible.builtin.command: "dockutil --find '{{ item.name }}'"
+  register: dockitem_exists
+  failed_when: '"No such file or directory" in dockitem_exists.stdout'
+  changed_when: false
+  tags: ['dock']
+
+- name: Ensure Dock item {{ item }} exists.
+  ansible.builtin.command: "dockutil --add '{{ item.path }}'"
+  when: dockitem_exists.rc >0
+  tags: ['dock']
+
+- name: Remove configured Dock items.
+  ansible.builtin.include_tasks: tasks/dock-remove.yml
+  loop: "{{ dockitems_remove }}"
+
+- name: Ensure required dock items exist.
+  ansible.builtin.include_tasks: tasks/dock-add.yml
+  loop: "{{ dockitems_persist }}"
+
+- name: Ensure correct Dock order.
+  ansible.builtin.command:
+    cmd: dockutil --move '{{ item.name }}' --position '{{ item.pos }}'
+  when:
+    - item.pos is defined
+    - item.pos length >0
+  loop: "{{ dockitems_persist }}"

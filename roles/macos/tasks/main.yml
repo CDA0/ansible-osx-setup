@@ -1,0 +1,44 @@
+---
+- name: Disable the "Are you sure you want to open this application?" dialog
+  shell: defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+- name: Restart automatically if the computer freezes
+  become: yes
+  shell: systemsetup -setrestartfreeze on
+
+- name: Finder - show status bar
+  shell: defaults write com.apple.finder ShowStatusBar -bool true
+
+- name: Finder - show path bar
+  shell: defaults write com.apple.finder ShowPathbar -bool true
+
+- name: Finder - display full POSIX path
+  shell: defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+
+- name: Finder - keep folders on top
+  shell: defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+- name: Finder - search current folder by default
+  shell: defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+- name: Finder - disable file extension change warning
+  shell: defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+
+- name: Avoid writing .DS_Store to network or USB
+  shell: |
+    defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+    defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+
+- name: Set dock icon size
+  shell: defaults write com.apple.dock tilesize -int 32
+
+- name: Don't show recent apps in dock
+  shell: defaults write com.apple.dock show-recents -bool false
+
+- name: Prevent time machine from prompting to use new hard drives as backup
+  shell: defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
+
+- name: Sroll normally
+  shell: defaults write -g com.apple.swipescrolldirection -bool false
+
+- include: ./dock.yml
