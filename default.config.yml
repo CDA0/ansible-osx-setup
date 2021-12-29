@@ -21,9 +21,12 @@ dockitems_persist:
 - name: Brave Browser
   path: "/Applications/Brave Browser.app"
   position: 1
-- name: Binance
-  path: "/Applications/Binance.app"
+- name: Firefox
+  path: "/Applications/Firefox Developer Edition.app"
   position: 2
+- name: Alacritty
+  path: "/Applications/Alacritty.app"
+  position: 3
 
 homebrew_installed_packages:
   - azure-cli
@@ -58,7 +61,7 @@ homebrew_cask_apps:
   - brave-browser
   - caffeine
   - homebrew/cask-versions/firefox-developer-edition
-  - google-chrome
+  # - google-chrome
   - kitty
   - homebrew/cask-fonts/font-fira-code
   - homebrew/cask-fonts/font-fira-code-nerd-font
@@ -85,3 +88,14 @@ visual_studio_code_extensions:
   - davidanson.vscode-markdownlint
   - alefragnani.project-manager
   - ms-azure-devops.azure-pipelines
+  - CoenraadS.bracket-pair-colorizer-2
+  - DavidAnson.vscode-markdownlint
+  - ms-azuretools.vscode-bicep
+  - ms-azuretools.vscode-docker
+  - ms-dotnettools.vscode-dotnet-runtime
+  - ms-mssql.mssql
+  - ms-python.python
+  - ms-toolsai.jupyter
+  - ms-python.vscode-pylance
+  - ms-vscode-remote.remote-containers
+  - ms-vscode.azure-account

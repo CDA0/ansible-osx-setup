@@ -5,9 +5,13 @@
     - default.config.yml
 
   roles:
-    - { role: geerlingguy.homebrew, tags: ['homebrew'] }
+    - { role: geerlingguy.mac.homebrew, tags: ['homebrew'] }
     - { role: macos, tags: ['macos'] }
-    - { role: neovim, tags: ['neovim'] }
     - { role: fisher, tags: ['fish'] }
     - { role: asdf, tags: ['asdf'] }
     - { role: vscode, tags: ['code'] }
+    - { role: lunarvim, tags: ['lunarvim'] }
+    - { role: alacritty, tags: ['alacritty'] }
+    - { role: tmux, tags: ['tmux'] }
+    - { role: geerlingguy.mac.dock, tags: ['dock'] }
+    - { role: podman, tags: ['podman']}

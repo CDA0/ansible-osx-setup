@@ -1,4 +1,9 @@
 ---
+- name: Get installed extensions
+  ansible.builtin.command: code --list-extensions
+  register: extensions
+  changed_when: false
+
 - name: Install extensions
-  loop: "{{ visual_studio_code_extensions }}"
-  shell: "code --install-extension {{ item }}"
+  ansible.builtin.command: "code --install-extension {{ item }}"
+  loop: "{{ (extensions.stdout_lines | list) | difference(visual_studio_code_extensions) }}"

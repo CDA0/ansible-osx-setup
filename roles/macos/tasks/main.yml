@@ -1,44 +1,70 @@
 ---
 - name: Disable the "Are you sure you want to open this application?" dialog
-  shell: defaults write com.apple.LaunchServices LSQuarantine -bool false
+  ansible.builtin.command: defaults write com.apple.LaunchServices LSQuarantine -bool false
 
 - name: Restart automatically if the computer freezes
   become: yes
-  shell: systemsetup -setrestartfreeze on
+  ansible.builtin.command: systemsetup -setrestartfreeze on
+
+- name: Finder - get show status bar setting
+  ansible.builtin.command: defaults read com.apple.finder ShowStatusBar
+  register: statusbar
+  changed_when: false
 
 - name: Finder - show status bar
-  shell: defaults write com.apple.finder ShowStatusBar -bool true
+  ansible.builtin.command: defaults write com.apple.finder ShowStatusBar -bool true
+  when: statusbar | bool == false
+
+- name: Finder - get show path bar setting
+  ansible.builtin.command: defaults read com.apple.finder ShowPathbar
+  register: pathbar
+  changed_when: false
 
 - name: Finder - show path bar
-  shell: defaults write com.apple.finder ShowPathbar -bool true
+  ansible.builtin.command: defaults write com.apple.finder ShowPathbar -bool true
+  when: pathbar | bool == false
 
 - name: Finder - display full POSIX path
-  shell: defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+  ansible.builtin.command: defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
 - name: Finder - keep folders on top
-  shell: defaults write com.apple.finder _FXSortFoldersFirst -bool true
+  ansible.builtin.command: defaults write com.apple.finder _FXSortFoldersFirst -bool true
 
 - name: Finder - search current folder by default
-  shell: defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+  ansible.builtin.command: defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
 - name: Finder - disable file extension change warning
-  shell: defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+  ansible.builtin.command: defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
 - name: Avoid writing .DS_Store to network or USB
-  shell: |
+  ansible.builtin.command: |
     defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
     defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 - name: Set dock icon size
-  shell: defaults write com.apple.dock tilesize -int 32
+  ansible.builtin.command: defaults write com.apple.dock tilesize -int 32
 
 - name: Don't show recent apps in dock
-  shell: defaults write com.apple.dock show-recents -bool false
+  ansible.builtin.command: defaults write com.apple.dock show-recents -bool false
 
 - name: Prevent time machine from prompting to use new hard drives as backup
-  shell: defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
+  ansible.builtin.command: defaults write com.apple.TimeMachine DoNotOfferNewDisksForBackup -bool true
 
 - name: Sroll normally
-  shell: defaults write -g com.apple.swipescrolldirection -bool false
+  ansible.builtin.command: defaults write -g com.apple.swipescrolldirection -bool false
 
-- include: ./dock.yml
+- name: Expand save panel by default
+  ansible.builtin.command: defaults write NSGlobalDomain NSNavPanelExpandedStateForSaveMode -bool true
+
+- name: Expand print panel by default
+  ansible.builtin.command: defaults write NSGlobalDomain PMPrintingExpandedStateForPrint -bool true
+
+- name: Automatically close printer app once print has completed
+  ansible.builtin.command: defaults write com.apple.print.PrintingPrefs "Quit When Finished" -bool true
+
+- name: Save screenshots as PNG
+  ansible.builtin.command: defaults write com.apple.screencapture type -string "png"
+
+- name: Disable shaddow in screenshots
+  ansible.builtin.command: defaults write com.apple.screencapture disable-shadow -bool true
+

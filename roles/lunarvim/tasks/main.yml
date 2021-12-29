@@ -1,0 +1,27 @@
+---
+- name: Install neovim
+  community.general.homebrew:
+    name: neovim
+    state: present
+
+- name: Install homebrew deps
+  community.general.homebrew:
+    name:
+    - shellcheck
+    - shfmt
+    - stylua
+    - ansible-lint
+    state: present
+
+- name: Install lunarvim
+  ansible.builtin.expect:
+    command: 
+    responses:
+      "Would you like to install LunarVim's NodeJS dependencies?": y
+      "Would you like to install LunarVim's Python dependencies?": y
+      "Would you like to install LunarVim's Rust dependencies?": y
+
+- name: Copy config
+  copy:
+    src: config.lua
+    dest: "{{ lookup('env', 'HOME') }}/.config/lvim/config.lua"

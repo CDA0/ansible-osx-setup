@@ -1,4 +1,9 @@
 ---
+- name: Install fish
+  community.general.homebrew:
+    name: fish
+    state: present
+
 - name: Install fisher
   shell: fish -c "curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher"
 
@@ -10,6 +15,14 @@
     - gazorby/fish-exa
     - PatrickF1/fzf.fish
     - jhillyerd/plugin-git
+    - danhper/fish-ssh-agent
+    - laughedelic/pisces
+    - jethrokuan/z
+
+- name: Copy config.fish
+  copy:
+    src: config.fish
+    dest: "{{ lookup('env', 'HOME') }}/.config/fish/config.fish"
 
 - name: Set default shell
   become: yes

@@ -1,0 +1,24 @@
+---
+- name: Install podman
+  community.general.homebrew:
+    name: podman
+    state: present
+
+- name: Check for existing machines
+  ansible.builtin.shell: podman machine list --noheading | grep default | wc -l
+  register: podman_machines
+  changed_when: false
+
+- name: Init podman machine
+  ansible.builtin.shell: podman machine init
+  when: podman_machines.stdout | int == 0
+
+- name: Check for running machines
+  ansible.builtin.shell: podman machine list --noheading | grep default | grep running | wc -l
+  register: podman_machines_running
+  changed_when: false
+
+- name: Start podman machine
+  ansible.builtin.shell: podman machine start
+  when: podman_machines_running.stdout | int == 0
+

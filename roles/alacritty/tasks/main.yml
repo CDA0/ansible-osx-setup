@@ -1,0 +1,40 @@
+---
+# - name: Install alacritty
+#   community.general.homebrew:
+#     name: alacritty
+#     state: present
+# 
+- name: Check for terminfo
+  ansible.builtin.shell: infocmp alacritty
+  register: infocmp
+  failed_when: infocmp.rc > 1
+
+- name: Clone alacritty
+  git:
+    repo: https://github.com/alacritty/alacritty
+    dest: "{{ lookup('env', 'PWD') }}/alacritty"
+    clone: yes
+  when: infocmp.rc == 1
+
+- name: Regiter terminfo
+  become: yes
+  ansible.builtin.shell:
+    cmd: tic -xe alacritty,alacritty-direct alacritty/extra/alacritty.info
+  when: infocmp.rc == 1
+
+- name: Remove alacritty repo
+  file:
+    path: "{{ lookup('env', 'PWD') }}/alacritty"
+    state: absent
+  when: infocmp.rc == 1
+
+- name: Copy config
+  copy:
+    src: alacritty.yml
+    dest: "{{ lookup('env', 'HOME') }}/.config/alacritty/alacritty.yml"
+
+- name: Enable smooth scolling
+  shell: |
+    defaults write -g CGFontRenderingFontSmoothingDisabled -bool NO
+    defaults -currentHost write -globalDomain AppleFontSmoothing -int 2
+
