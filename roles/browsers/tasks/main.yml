@@ -1,0 +1,6 @@
+---
+- name: Install browsers
+  community.general.homebrew_cask:
+    name:
+    - firefox
+    state: upgraded

@@ -2,7 +2,7 @@
 - name: Install neovim
   community.general.homebrew:
     name: neovim
-    state: present
+    state: latest
 
 - name: Install homebrew deps
   community.general.homebrew:
@@ -11,15 +11,28 @@
     - shfmt
     - stylua
     - ansible-lint
-    state: present
+    state: latest
+
+- name: Install lunarvim
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/lunarvim/lunarvim/master/utils/installer/install.sh
+    dest: /tmp/lunarvim.sh
+    mode: '0777'
+
+# npm i neovim tree-sitter-cli
+- name: Install global node modules
+  ansible.builtin.shell: npm install -g {{ item }}
+  with_items:
+    - neovim
+    - tree-sitter-cli
 
 - name: Install lunarvim
   ansible.builtin.expect:
-    command: 
+    command: /tmp/lunarvim.sh
     responses:
-      "Would you like to install LunarVim's NodeJS dependencies?": y
+      "Would you like to install LunarVim's NodeJS dependencies?": n
       "Would you like to install LunarVim's Python dependencies?": y
-      "Would you like to install LunarVim's Rust dependencies?": y
+      "Would you like to install LunarVim's Rust dependencies?": n
 
 - name: Copy config
   copy:

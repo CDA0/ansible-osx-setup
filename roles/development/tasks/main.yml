@@ -1,0 +1,14 @@
+---
+- name: Install developer tools
+  community.general.homebrew:
+    name:
+    - azure-cli
+    - kubernetes-cli
+    - kubie
+    state: upgraded
+
+- name: Install developer cask tools
+  community.general.homebrew_cask:
+    name:
+    - visual-studio-code
+    state: upgraded

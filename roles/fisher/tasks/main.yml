@@ -25,7 +25,6 @@
     dest: "{{ lookup('env', 'HOME') }}/.config/fish/config.fish"
 
 - name: Set default shell
-  become: yes
   ansible.builtin.user:
     name: "{{ lookup('env', 'USER') }}"
     shell: /usr/local/bin/fish

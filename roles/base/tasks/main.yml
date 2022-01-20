@@ -1,0 +1,18 @@
+---
+- name: Install base os tools
+  community.general.homebrew:
+    name:
+    - base64
+    - bash
+    - bat
+    - exa
+    - fd
+    - fzf
+    - gnu-sed
+    - gnupg
+    - htop
+    - jq
+    - pinentry-mac
+    - the-unarchiver
+    - caffeine
+    state: upgraded

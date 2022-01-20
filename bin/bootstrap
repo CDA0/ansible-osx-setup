@@ -2,6 +2,12 @@
 
 xcode-select --install
 
+echo "Installing brew..."
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+echo "Installing brew cask..."
+brew tap homebrew/caskx
+
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3 get-pip.py --user
 python3 -m pip install --user ansible

@@ -1,0 +1,15 @@
+---
+- name: Install font dependencies
+  community.general.homebrew:
+    name: svn
+
+- name: Install fonts
+  community.general.homebrew_cask:
+    name:
+    - homebrew/cask-fonts/font-fira-code
+    - homebrew/cask-fonts/font-fira-code-nerd-font
+    - homebrew/cask-fonts/font-sauce-code-pro-nerd-font
+    - homebrew/cask-fonts/font-monoid
+    - homebrew/cask-fonts/font-monoid-nerd-font
+    - homebrew/cask-fonts/font-source-code-pro-for-powerline # requires svn
+    state: latest
