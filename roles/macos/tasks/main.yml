@@ -9,40 +9,31 @@
   ansible.builtin.command: systemsetup -setrestartfreeze on
   changed_when: false
 
-# - name: Finder - get show status bar setting
-#   ansible.builtin.command: defaults read com.apple.finder ShowStatusBar
-#   register: statusbar
-#   changed_when: false
+- name: Finder - show status bar
+  ansible.builtin.command: defaults write com.apple.finder ShowStatusBar -bool true
 
-# - name: Finder - show status bar
-#   ansible.builtin.command: defaults write com.apple.finder ShowStatusBar -bool true
-#   when: statusbar | bool == false
 
-# - name: Finder - get show path bar setting
-#   ansible.builtin.command: defaults read com.apple.finder ShowPathbar
-#   register: pathbar
-#   changed_when: false
-
-# - name: Finder - show path bar
-#   ansible.builtin.command: defaults write com.apple.finder ShowPathbar -bool true
+- name: Finder - show path bar
+  ansible.builtin.command: defaults write com.apple.finder ShowPathbar -bool true
 #   when: pathbar | bool == false
 
-# - name: Finder - display full POSIX path
-#   ansible.builtin.command: defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
+- name: Finder - display full POSIX path
+  ansible.builtin.command: defaults write com.apple.finder _FXShowPosixPathInTitle -bool true
 
-# - name: Finder - keep folders on top
-#   ansible.builtin.command: defaults write com.apple.finder _FXSortFoldersFirst -bool true
+- name: Finder - keep folders on top
+  ansible.builtin.command: defaults write com.apple.finder _FXSortFoldersFirst -bool true
 
-# - name: Finder - search current folder by default
-#   ansible.builtin.command: defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+- name: Finder - search current folder by default
+  ansible.builtin.command: defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
 
-# - name: Finder - disable file extension change warning
-#   ansible.builtin.command: defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
+- name: Finder - disable file extension change warning
+  ansible.builtin.command: defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 
-- name: Avoid writing .DS_Store to network or USB
-  ansible.builtin.command: |
-    defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
-    defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
+- name: Avoid writing .DS_Store to network
+  ansible.builtin.command: defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
+
+- name: Avoid writing .DS_Store to USB
+  ansible.builtin.command: defaults write com.apple.desktopservices DSDontWriteUSBStores -bool true
 
 - name: Set dock icon size
   ansible.builtin.command: defaults write com.apple.dock tilesize -int 32

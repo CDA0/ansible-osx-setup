@@ -5,6 +5,7 @@
     - default.config.yml
 
   roles:
+    - { role: base, tags: ['base'] }
     - { role: macos, tags: ['macos'] }
     - { role: browsers, tags: ['browsers'] }
     - { role: fisher, tags: ['fish'] }
@@ -14,4 +15,5 @@
     - { role: terminals, tags: ['terminals'] }
     - { role: tmux, tags: ['tmux'] }
     - { role: fonts, tags: ['fonts'] }
+    - { role: 1password, tags: ['1password'] }
     #- { role: podman, tags: ['podman']}
