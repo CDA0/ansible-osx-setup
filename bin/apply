@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-export PATH=$PATH:/Users/$USER/Library/Python/3.8/bin/
-ansible-playbook -i "localhost," -c local ansible_osx.yml --ask-become-pass $@

@@ -6,6 +6,7 @@
 
   roles:
     - { role: macos, tags: ['macos'] }
+    - { role: browsers, tags: ['browsers'] }
     - { role: fisher, tags: ['fish'] }
     - { role: asdf, tags: ['asdf'] }
     - { role: development, tags: ['dev'] }
